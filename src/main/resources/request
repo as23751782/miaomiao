@@ -1,0 +1,117 @@
+系统登录
+GET https://miaomiao.scmttec.com/passport/wxapp/login.do
+header：
+{
+	"Content-Type": "application/x-www-form-urlencoded",
+	tk:false
+}
+param:
+{
+	code: Code,
+	minaId: 10
+}
+
+Code是微信登录后传入openId
+cache_login_token是微信登录后传入openId，再调用系统登录接口，从cookie中取到的，key为：_xzkj_
+ms_id就是秒杀列表id
+
+获取秒杀列表信息
+GET https://miaomiao.scmttec.com/seckill/seckill/list.do
+Header
+{
+	"Content-Type": "application/json",
+	tk: cache_login_token
+}
+param
+{
+	regionCode:"",
+	paging:{
+		offset: 0,
+		limit: 10
+	}
+}
+
+查询用户联系人列表
+GET https://miaomiao.scmttec.com/seckill/linkman/findByUserId.do
+Header
+{
+	"Content-Type": "application/json",
+	tk: cache_login_token
+}
+
+
+秒杀下单
+GET https://miaomiao.scmttec.com/seckill/seckill/subscribe.do
+
+Header
+{
+	"Content-Type": "application/json",
+	tk: cache_login_token,
+	"ecc-hs": md5Str
+}
+param
+{
+	seckillId: ms_id,
+	linkmanId: defaultMember.id,
+	idCardNo: idCardNo,
+	vaccineIndex: 1
+}
+order_id=res.data.data
+
+var salt = "ux$ad70*b";
+var md5Str = utilMd5.hexMD5(utilMd5.hexMD5(ms_id + defaultMember.id + st) + salt);
+
+检查库存
+GET https://miaomiao.scmttec.com/seckill/seckill/checkstock2.do
+Header
+{
+	"Content-Type": "application/json",
+	tk: cache_login_token
+}
+param
+{
+	id: ms_id
+}
+
+st = res.data.data.st
+
+
+获取可预约时间段
+GET https://miaomiao.scmttec.com/seckill/seckill/subscribeDays.do
+Header
+{
+	"Content-Type": "application/json",
+	tk: cache_login_token
+}
+param
+{
+	id: this.ms_id,
+	sid: this.order_id
+}
+workdays = res.data.data;
+
+
+
+提交接种日期和时间段
+GET https://miaomiao.scmttec.com/seckill/seckill/dayTimes.do
+{
+	"Content-Type": "application/json",
+	tk: cache_login_token
+}
+param
+{
+	id: this.ms_id,
+	sid: this.order_id,
+	day: day
+}
+period = res.data.data[0]
+
+提交预约
+GET https://miaomiao.scmttec.com/seckill/seckill/submitDateTime.do
+param
+{
+	id: this.ms_id,
+	sid: order_id,
+	day: this.subscribeDate,
+	wid: wid
+}

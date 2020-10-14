@@ -1,0 +1,63 @@
+GET https://miaomiao.scmttec.com/seckill/seckill/now2.do HTTP/1.1
+Host: miaomiao.scmttec.com
+Connection: keep-alive
+Accept: application/json, text/plain, */*
+Cookie: _xzkj_=wxapptoken:10:3437651d5ffd6929650c0c8e413bde78_97f40e67e0ee41bbb2784b0aab9dadae
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+tk: wxapptoken:10:3437651d5ffd6929650c0c8e413bde78_97f40e67e0ee41bbb2784b0aab9dadae
+Referer: https://servicewechat.com/wxff8cad2e9bf18719/14/page-frame.html
+Accept-Encoding: gzip, deflate, br
+
+
+GET https://miaomiao.scmttec.com/seckill/seckill/list.do?offset=0&limit=10&regionCode=1201 HTTP/1.1
+Host: miaomiao.scmttec.com
+Connection: keep-alive
+Accept: application/json, text/plain, */*
+Cookie: _xzkj_=wxapptoken:10:3437651d5ffd6929650c0c8e413bde78_97f40e67e0ee41bbb2784b0aab9dadae
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+tk: wxapptoken:10:3437651d5ffd6929650c0c8e413bde78_97f40e67e0ee41bbb2784b0aab9dadae
+Referer: https://servicewechat.com/wxff8cad2e9bf18719/14/page-frame.html
+Accept-Encoding: gzip, deflate, br
+
+
+GET https://miaomiao.scmttec.com/passport/wxapp/userInfo.do?minaId=10&encryptedData=h4qkeN%2BZj8faQwDiwAPwDTnEpnuD4GF4pSx8ERYXurOw1oikTmeRApSljJq82VcbU8YQhFuGWFdwkSnuGq5N0T446dJWUZqznLTzDIwswuAiUVcpompK2ewTlCQb8hRA1vJ%2BLgYjxMhe27GJMkDWO8D6GQnPw%2FSwTKmCtmsuSc1g01efn0pZFHHOkC6TZ%2Bp2cGVb3XbDfhy30qN%2F6qXlOLtIRDQKlUSs9CbxmiyJgzXP9M%2B6W5YDfTOU3YItYlaVcA%2Fo5ZwryOFiO4jC%2BQED%2FOv4V9rLYRV%2FUExOb%2FdISRIXMcJM9u8afAV5cJVkSKbBQlN7VfRIhWLu%2FvT6e4xTI0sp9y4q0fxk%2FVrjn0WXOPUHOOUS8o47%2BOt%2BTCifEBONYFDxik%2FEVp5o4gaM7hZ18qW6KDB7PZO%2BiUvYOLccCd%2B%2BXa%2BeY76l%2F1Ml9BfAWvtItOc%2F6zL%2FmFCON1xXO8Okt5NkP8p2zqgOE9TRutTel8r%2FJQAkn7rth4uPWG5Zg9ojkYxP4ctaxQL6YFn8cvpbsQ%3D%3D&iv=4TUin0Hm93qYJ9FQFgyCgQ%3D%3D HTTP/1.1
+Host: miaomiao.scmttec.com
+Connection: keep-alive
+Accept: application/json, text/plain, */*
+Cookie: _xzkj_=wxapptoken:10:3437651d5ffd6929650c0c8e413bde78_97f40e67e0ee41bbb2784b0aab9dadae
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+tk: wxapptoken:10:3437651d5ffd6929650c0c8e413bde78_97f40e67e0ee41bbb2784b0aab9dadae
+Referer: https://servicewechat.com/wxff8cad2e9bf18719/14/page-frame.html
+Accept-Encoding: gzip, deflate, br
+
+
+GET https://miaomiao.scmttec.com/passport/wxapp/getPhoneNumber.do?minaId=10&encryptedData=ngzG1HbK06yziveaxYw2pHMnxkfsiOgzEmEfbOrgg6BroWgum2ZP7LUzwl4uTANzmdGacrz2YWVO8qrmgnLOQvLHrvBCveoe4xDliKnCTLWAB095SpCe%2Br%2FxQm8VoucKh6PFzvnbxlPOLz9LHnlhvk%2FwL149hMdVActKzzKzKuZi7sqI5XPT6e9Jvy1A8Uzj8gPIOLmlFb6d0ojWrVFjIQ%3D%3D&iv=JfKx1YgVY6StJ5YXdMOxgQ%3D%3D&nickName=%E4%B8%89%E4%B8%89&avatarUrl=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FWIYdKs6CgBSNj3evkG3E2UqSjpCuYuQo5Af1dSkib4zjW0qt4EicjN3RYH6Ycib7OnoCPyCSPsAWLQHGzpgv0MiaGg%2F132&gender=2 HTTP/1.1
+Host: miaomiao.scmttec.com
+Connection: keep-alive
+Accept: application/json, text/plain, */*
+Cookie: _xzkj_=wxapptoken:10:d3b68553e9544b35dc09a8b174d4be8f_52703292d8399cdc00e6c569a30620a5; _xxhm_={}
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+tk: wxapptoken:10:d3b68553e9544b35dc09a8b174d4be8f_52703292d8399cdc00e6c569a30620a5
+Referer: https://servicewechat.com/wxff8cad2e9bf18719/14/page-frame.html
+Accept-Encoding: gzip, deflate, br
+
+
+GET https://miaomiao.scmttec.com/seckill/linkman/findByUserId.do HTTP/1.1
+Host: miaomiao.scmttec.com
+Connection: keep-alive
+Accept: application/json, text/plain, */*
+Cookie: _xxhm_=%7B%22headerImg%22%3A%22http%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2FQ3auHgzwzM5ZicSq3icXkmWDXahsqjN6vn9ZrXakSSLiayrlvDxITO5QOXmgRa57aCOYwN9Qibyr2UrI1Q40ibBuHLsAmZtARWJE7ibtE5pPML98g%2F132%22%2C%22mobile%22%3A%22166****2375%22%2C%22nickName%22%3A%22%E4%B8%89%E4%B8%89%22%2C%22sex%22%3A2%7D; _xzkj_=wxapptoken:10:d3b68553e9544b35dc09a8b174d4be8f_ea2b6dac4516c18d4c965e5d5d77c7db
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat
+X-Requested-With: XMLHttpRequest
+content-type: application/json
+tk: wxapptoken:10:d3b68553e9544b35dc09a8b174d4be8f_ea2b6dac4516c18d4c965e5d5d77c7db
+Referer: https://servicewechat.com/wxff8cad2e9bf18719/14/page-frame.html
+Accept-Encoding: gzip, deflate, br

@@ -22,7 +22,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	compile 'org.slf4j:slf4j-api:1.7.30'
-	compile 'org.projectlombok:lombok:1.18.12'
+	compile 'commons-codec:commons-codec:1.15'
+	compile 'com.alibaba:fastjson:1.2.68'
+
+	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+	compileOnly 'org.projectlombok:lombok:1.18.12'
 }
 
 tasks.withType(JavaCompile) {

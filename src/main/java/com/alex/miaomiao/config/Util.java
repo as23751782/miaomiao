@@ -1,13 +1,17 @@
 package com.alex.miaomiao.config;
 
+import com.alex.miaomiao.exception.NotFoundException;
 import com.alex.miaomiao.vo.Area;
+import com.alex.miaomiao.vo.AreaConfig;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class Util {
@@ -15,6 +19,15 @@ public class Util {
 //    public static String COOKIES = "";
     public static String TK;
     public static Integer MEMBER_ID;
+    private static List<AreaConfig> areaList;
+    private final static Map<String, AreaConfig> areaMap = new HashMap<>();
+    static {
+        areaMap.put("1101", new AreaConfig("直辖市", "北京市", "1101"));
+        areaMap.put("1201", new AreaConfig("直辖市", "天津市", "1201"));
+        areaMap.put("3101", new AreaConfig("直辖市", "上海市", "3101"));
+        areaMap.put("5001", new AreaConfig("直辖市", "重庆市", "5001"));
+        areaMap.put("8101", new AreaConfig("香港", "香港", "8101"));
+    }
 
 
     private static HttpHeaders getHeader() {
@@ -64,7 +77,27 @@ public class Util {
     }
 
     public static Area getArea(String regionCode) {
-        return new Area();
+        if (areaList == null) {
+            areaList = JSON.parseArray(UrlConstant.AREA, AreaConfig.class);
+        }
+
+        AreaConfig areaConfig = areaMap.get(regionCode) != null ? areaMap.get(regionCode) : findArea(regionCode);
+        if (areaConfig == null) {
+            throw new NotFoundException(regionCode);
+        }
+        return new Area(regionCode, areaConfig.getParentName(), areaConfig.getName());
+    }
+
+    private static AreaConfig findArea(String regionCode) {
+        for (AreaConfig parent : areaList) {
+            Optional<AreaConfig> opt = parent.getChildren().stream().filter(child -> regionCode.equals(child.getValue())).findAny();
+            if (opt.isPresent()) {
+                AreaConfig areaConfig = opt.get();
+                areaConfig.setParentName(parent.getName());
+                return areaConfig;
+            }
+        }
+        return null;
     }
 
 }

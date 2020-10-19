@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.0-SNAPSHOT'
-	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.4.0-SNAPSHOT'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
 }
 
 group = 'com.alex'
@@ -9,36 +9,45 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
-	maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
-	maven { url "https://maven.aliyun.com/nexus/content/repositories/gradle-plugin" }
-	maven { url "https://plugins.gradle.org/m2/" }
+    mavenLocal()
+    jcenter()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+    maven { url "https://maven.aliyun.com/nexus/content/groups/public" }
+    maven { url "https://maven.aliyun.com/nexus/content/repositories/gradle-plugin" }
+    maven { url "https://plugins.gradle.org/m2/" }
+//	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	compile 'org.slf4j:slf4j-api:1.7.30'
-	compile 'commons-codec:commons-codec:1.15'
-	compile 'com.alibaba:fastjson:1.2.68'
-	compile 'io.swagger:swagger-annotations:1.5.22'
-	compile 'io.swagger:swagger-models:1.5.22'
-	compile 'io.springfox:springfox-swagger2:2.9.2'
-	compile 'io.springfox:springfox-swagger-ui:2.9.2'
+    compile 'org.slf4j:slf4j-api:1.7.30'
+    compile 'commons-codec:commons-codec:1.15'
+    compile 'com.alibaba:fastjson:1.2.68'
+    compile 'io.swagger:swagger-annotations:1.5.22'
+    compile 'io.swagger:swagger-models:1.5.22'
+    compile 'io.springfox:springfox-swagger2:2.9.2'
+    compile 'io.springfox:springfox-swagger-ui:2.9.2'
 
-
-
-	annotationProcessor 'org.projectlombok:lombok:1.18.12'
-	compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'org.projectlombok:lombok:1.18.12'
 }
 
 tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
+    options.encoding = "UTF-8"
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
+
+apply plugin: 'application'
+mainClassName = 'com.alex.miaomiao.MiaomiaoApplication'
+
+//bootJar {
+//    archiveBaseName = "miaomiao"
+//    version = ""
+//
+//}

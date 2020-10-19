@@ -2,10 +2,6 @@ package com.alex.miaomiao.vo;
 
 import lombok.Data;
 
-/**
- * @author fengbin
- * @date 2020/10/14
- */
 @Data
 public class LoginVo {
 

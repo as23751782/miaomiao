@@ -1,5 +1,6 @@
 package com.alex.miaomiao.config;
 
+import com.alex.miaomiao.vo.Area;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.HttpEntity;
@@ -8,12 +9,11 @@ import org.springframework.http.HttpHeaders;
 import java.util.List;
 import java.util.Map;
 
+
 public class Util {
 
-    // _xzkj_=wxapptoken:10:3437651d5ffd6929650c0c8e413bde78_97f40e67e0ee41bbb2784b0aab9dadae
 //    public static String COOKIES = "";
-    // wxapptoken:10:3437651d5ffd6929650c0c8e413bde78_97f40e67e0ee41bbb2784b0aab9dadae
-    public static String TK = "wxapptoken:10:d3b68553e9544b35dc09a8b174d4be8f_ea2b6dac4516c18d4c965e5d5d77c7db";
+    public static String TK;
     public static Integer MEMBER_ID;
 
 
@@ -54,8 +54,17 @@ public class Util {
         return JSON.parseArray(json, cls);
     }
 
-    public String getArea(String regionCode) {
-        return "";
+    public static <T> T getObjectFromJson(String json, Class<T> cls) {
+        System.out.println();
+        System.out.println();
+        System.out.println(json);
+        System.out.println();
+        System.out.println();
+        return JSON.parseObject(json, cls);
+    }
+
+    public static Area getArea(String regionCode) {
+        return new Area();
     }
 
 }

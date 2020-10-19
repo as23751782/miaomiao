@@ -1,9 +1,5 @@
 package com.alex.miaomiao.config;
 
-/**
- * @author fengbin
- * @date 2020/10/14
- */
 public class UrlConstant {
 
     private static final String BASE_URL = "https://miaomiao.scmttec.com";
@@ -14,7 +10,6 @@ public class UrlConstant {
     public static final String MS = BASE_URL + "/seckill/seckill/subscribe.do?seckillId={seckillId}&linkmanId={linkmanId}&idCardNo={idCardNo}&vaccineIndex={vaccineIndex}";
     public static final String ST = BASE_URL + "/seckill/seckill/checkstock2.do?id={id}";
     public static final String NOW = BASE_URL + "/seckill/seckill/now2.do";
-
 
     public static final String AREA = "[" +
             "{\"name\":\"直辖市\",\"value\":\"0\",\"children\":[{\"name\":\"北京市\",\"value\":\"11\"},{\"name\":\"天津市\",\"value\":\"12\"},{\"name\":\"上海市\",\"value\":\"31\"},{\"name\":\"重庆市\",\"value\":\"50\"}]}," +

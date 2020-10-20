@@ -1,9 +1,11 @@
 package com.alex.miaomiao.vo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@NoArgsConstructor
 @Data
 public class AreaConfig {
     private String parentName;

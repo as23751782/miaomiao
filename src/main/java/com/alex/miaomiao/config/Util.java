@@ -29,7 +29,6 @@ public class Util {
         areaMap.put("8101", new AreaConfig("香港", "香港", "8101"));
     }
 
-
     private static HttpHeaders getHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Host", "miaomiao.scmttec.com");

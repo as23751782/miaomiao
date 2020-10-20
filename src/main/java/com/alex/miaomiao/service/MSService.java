@@ -90,7 +90,6 @@ public class MSService {
         log.fmtDebug("查询到{}条待秒杀信息：", vaccineList.size());
         vaccineList.forEach(vaccineInfo -> log.debug("\t\u25CF {}", vaccineInfo));
 
-
         //4、get member
         UserInfo user = getMember();
         log.fmtDebug("接种人姓名：[{}]，身份证号：[{}]，ID：[{}]", user.getName(), user.getIdCardNo(), user.getId());

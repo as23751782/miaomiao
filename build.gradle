@@ -43,8 +43,8 @@ test {
     useJUnitPlatform()
 }
 
-apply plugin: 'application'
-mainClassName = 'com.alex.miaomiao.MiaomiaoApplication'
+//apply plugin: 'application'
+//mainClassName = 'com.alex.miaomiao.MiaomiaoApplication'
 
 //bootJar {
 //    archiveBaseName = "miaomiao"

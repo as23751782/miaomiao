@@ -19,6 +19,7 @@ public class Util {
 //    public static String COOKIES = "";
     public static String TK;
     public static Integer MEMBER_ID;
+    public static String ID_CARD;
     private static List<AreaConfig> areaList;
     private final static Map<String, AreaConfig> areaMap = new HashMap<>();
     static {

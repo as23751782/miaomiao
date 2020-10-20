@@ -58,10 +58,8 @@ public class MSController {
     @ApiOperation("开启秒杀任务")
     @PostMapping(value = "/start")
     @ResponseBody
-    public MSResponse<String> start(@RequestBody MSRequest request) {
+    public MSResponse<String> start(@RequestBody MSRequest request) throws InterruptedException {
         service.startMS(request);
         return new MSResponse<>();
     }
-
-
 }

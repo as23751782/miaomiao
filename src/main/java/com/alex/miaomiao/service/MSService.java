@@ -1,12 +1,15 @@
 package com.alex.miaomiao.service;
 
+import com.alex.miaomiao.config.EmptyMap;
 import com.alex.miaomiao.config.MsLog;
 import com.alex.miaomiao.config.UrlConstant;
 import com.alex.miaomiao.config.Util;
+import com.alex.miaomiao.exception.MSException;
 import com.alex.miaomiao.vo.Area;
 import com.alex.miaomiao.vo.MSRequest;
 import com.alex.miaomiao.vo.UserInfo;
 import com.alex.miaomiao.vo.VaccineInfo;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -15,11 +18,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.Collection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class MSService {
@@ -69,7 +78,7 @@ public class MSService {
         return Util.getListFromJson(get(UrlConstant.LINKMAN, httpEntity, EMPTY_MAP), UserInfo.class).get(0);
     }
 
-    public void startMS(MSRequest request) {
+    public void startMS(MSRequest request) throws InterruptedException {
         System.out.println("============================== 9价HPV疫苗秒杀脚本 ==============================");
         log.fmtDebug("开始启动脚本...");
 
@@ -88,20 +97,66 @@ public class MSService {
         log.fmtDebug("获取疫苗信息，{}-{}，区域ID：{}", area.getProvince(), area.getCity(), area.getRegionCode());
         List<VaccineInfo> vaccineList = getList(request.getRegionCode());
         log.fmtDebug("查询到{}条待秒杀信息：", vaccineList.size());
+        if (vaccineList.isEmpty()) {
+            return;
+        }
+        long startDate = convertDateToLong("2020-10-20 15:24:15");
+//        long startDate = convertDateToLong(vaccineList.get(0).getStartTime());
         vaccineList.forEach(vaccineInfo -> log.debug("\t\u25CF {}", vaccineInfo));
 
         //4、get member
         UserInfo user = getMember();
         log.fmtDebug("接种人姓名：[{}]，身份证号：[{}]，ID：[{}]", user.getName(), user.getIdCardNo(), user.getId());
+        Util.MEMBER_ID = user.getId();
+        Util.ID_CARD = user.getIdCardNo();
 
         //5、start task
         log.fmtDebug("启动秒杀任务，敬请期待...");
-//        serviceExecutor.execute(() -> {});
+        AtomicBoolean success = new AtomicBoolean(false);
+        AtomicReference<String> orderId = new AtomicReference<>(null);
+        List<Runnable> taskPool = vaccineList.stream().map(vaccineInfo -> getTask(vaccineInfo.getId(), vaccineInfo.getStartTime(), delta, success, orderId)).collect(Collectors.toList());
 
+        long now = System.currentTimeMillis();
+        if (now + 2000 < startDate) {
+            log.info("还未到开始时间，等待中......");
+            Thread.sleep(startDate - now - 2000);
+        }
+
+        //提前2000毫秒开始秒杀
+        log.info("###########提前2秒 开始秒杀###########");
+        startTask(taskPool);
+
+        //提前1000毫秒开始秒杀
+        do {
+            now = System.currentTimeMillis();
+        } while (now + 1000 < startDate);
+        log.info("###########第一波 开始秒杀###########");
+        startTask(taskPool);
+
+        //提前500毫秒开始秒杀
+        do {
+            now = System.currentTimeMillis();
+        } while (now + 500 < startDate);
+        log.info("###########第二波 开始秒杀###########");
+        startTask(taskPool);
+
+        //提前200毫秒开始秒杀
+        do {
+            now = System.currentTimeMillis();
+        } while (now + 200 < startDate);
+        log.info("###########第三波 开始秒杀###########");
+        startTask(taskPool);
+
+        //准点（提前20毫秒）秒杀
+        do {
+            now = System.currentTimeMillis();
+        } while (now + 20 < startDate);
+        log.info("###########第四波 开始秒杀###########");
+        startTask(taskPool);
     }
 
-    private String ms(String msId, String linkmanId, String idCardNo) {
-        String md5 = Util.hexMD5(msId, getSt(msId));
+    private String ms(String msId, String linkmanId, String idCardNo, long delta) throws InterruptedException {
+        String md5 = Util.hexMD5(msId, getSt(delta));
         Map<String, String> map = new HashMap<>();
         map.put("ecc-hs", md5);
         HttpEntity<Object> httpEntity = Util.getHttpEntity(map);
@@ -112,13 +167,46 @@ public class MSService {
         param.put("idCardNo", idCardNo);
         param.put("vaccineIndex", "1");
 
-        JSONObject response = restTemplate.exchange(UrlConstant.MS, HttpMethod.GET, httpEntity, JSONObject.class, param).getBody();
-        if (response != null) {
-            if ("0000".equals(response.get("code"))) {
-                return response.getString("data");
-            }
+        log.fmtDebug("Request: header:{}, param:{}", httpEntity, param);
+        Random random = new Random();
+        int i = random.nextInt(5);
+        Thread.sleep(i * 1000);
+        if (random.nextInt() == 999) {
+            return "order success~";
         }
-        return null;
+        throw new MSException("404", "no response");
+
+//        JSONObject response = restTemplate.exchange(UrlConstant.MS, HttpMethod.GET, httpEntity, JSONObject.class, param).getBody();
+//        if (response != null) {
+//            if ("0000".equals(response.get("code"))) {
+//                return response.getString("data");
+//            }
+//        }
+//        throw new MSException(response.getString("code"), response.getString("msg"));
+    }
+
+    private Runnable getTask(String msId, String startDate, long delta, AtomicBoolean success, AtomicReference<String> orderId) {
+        long startTime = convertDateToLong(startDate);
+        return () -> {
+            do {
+                try {
+                    long id = Thread.currentThread().getId();
+                    log.fmtDebug("Thread ID：{}，发送请求", id);
+                    String order_id = ms(msId, Util.MEMBER_ID.toString(), Util.ID_CARD, delta);
+                    orderId.set(order_id);
+                    success.set(true);
+                    log.fmtDebug("Thread ID：{}，抢购成功", id);
+                } catch (MSException e) {
+                    log.fmtDebug("Thread ID: {}, 抢购失败: {}", Thread.currentThread().getId(), e.getErrMsg());
+                    if (System.currentTimeMillis() > startTime + 1000 * 60 * 3 || success.get()) {
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.warn("Thread ID: {}，未知异常", Thread.currentThread().getId());
+                }
+            } while (orderId.get() == null);
+        };
     }
 
     private String get(String url, HttpEntity<Object> httpEntity, Map<String, String> param) {
@@ -137,24 +225,32 @@ public class MSService {
         param.put("id", msId);
 
         String res = get(UrlConstant.ST, httpEntity, param);
-        log.info("st: {}", res);
-        return res;
+        //{"st":1603172338472,"stock":0}
+        String st = JSON.parseObject(res).getString("st");
+        log.info("st: {}", st);
+        return st;
     }
 
+    private String getSt(long delta) {
+        long current = System.currentTimeMillis();
+        return String.valueOf(current + delta);
+    }
 
+    private void startTask(List<Runnable> taskPool) {
+        for (int i = 0; i < 20; i++) {
+            taskPool.forEach(serviceExecutor::execute);
+        }
+    }
+
+    private long convertDateToLong(String dateStr) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = format.parse(dateStr);
+            return date.getTime();
+        } catch (ParseException ignored) {
+        }
+        return 999999999999999L;
+    }
 }
 
-class EmptyMap<K, V> implements Map<K, V> {
-    public int size() { return 0; }
-    public boolean isEmpty() { return true; }
-    public boolean containsKey(Object key) { return false; }
-    public boolean containsValue(Object value) { return false; }
-    public V get(Object key) { return null; }
-    public V put(K key, V value) { return null; }
-    public V remove(Object key) { return null; }
-    public void putAll(Map<? extends K, ? extends V> m) { }
-    public void clear() { }
-    public Set<K> keySet() { throw new UnsupportedOperationException(); }
-    public Collection<V> values() { throw new UnsupportedOperationException(); }
-    public Set<Entry<K, V>> entrySet() { throw new UnsupportedOperationException(); }
-}
+

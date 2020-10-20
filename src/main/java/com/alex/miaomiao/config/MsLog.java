@@ -33,6 +33,10 @@ public class MsLog {
         this.logger.debug(fmt, arguments);
     }
 
+    public void warn(String format, Object o) {
+        this.logger.warn(format, o);
+    }
+
     public void info(String format, Object... arguments){
         this.logger.info(format, arguments);
     }

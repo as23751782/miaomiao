@@ -70,7 +70,7 @@ public class MSService {
     }
 
     public void startMS(MSRequest request) {
-        log.debug("========== 9价HPV疫苗秒杀脚本 ==========");
+        System.out.println("============================== 9价HPV疫苗秒杀脚本 ==============================");
         log.fmtDebug("开始启动脚本...");
 
         //1、get server time

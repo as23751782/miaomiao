@@ -1,7 +1,5 @@
 package com.alex.miaomiao.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -13,13 +11,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableAsync
 @Configuration
 public class ExecutorConfig {
-    private static final Logger logger = LoggerFactory.getLogger(ExecutorConfig.class);
-
     @Primary
     @Bean(name = "mServiceExecutor")
     public ThreadPoolTaskExecutor getExecutor() {
-        logger.info("start MS-Service-Executor");
-
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(100);
         executor.setMaxPoolSize(200);

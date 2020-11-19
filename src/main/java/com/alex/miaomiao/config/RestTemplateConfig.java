@@ -10,8 +10,11 @@ import org.springframework.web.client.RestTemplate;
 public class RestTemplateConfig {
 
     @Bean
-    public RestTemplate restTemplate(ClientHttpRequestFactory factory){
-        return new RestTemplate(factory);
+    public RestTemplate restTemplate(){
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(simpleClientHttpRequestFactory());
+//        restTemplate.setErrorHandler(responseErrorHandler());
+        return restTemplate;
     }
 
     @Bean
@@ -21,5 +24,22 @@ public class RestTemplateConfig {
         factory.setReadTimeout(5000);
         return factory;
     }
+//
+//    @Bean
+//    public ResponseErrorHandler responseErrorHandler() {
+//
+//        return new ResponseErrorHandler() {
+//
+//            @Override
+//            public boolean hasError(ClientHttpResponse response) throws IOException {
+//                return true;
+//            }
+//
+//            @Override
+//            public void handleError(ClientHttpResponse response) throws IOException {
+//                System.out.println(response);
+//            }
+//        };
+//    }
 
 }

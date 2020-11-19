@@ -11,12 +11,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableAsync
 @Configuration
 public class ExecutorConfig {
+
     @Primary
     @Bean(name = "mServiceExecutor")
     public ThreadPoolTaskExecutor getExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(100);
-        executor.setMaxPoolSize(200);
+        executor.setCorePoolSize(200);
+        executor.setMaxPoolSize(1000);
         executor.setQueueCapacity(500);
         executor.setKeepAliveSeconds(60);
         executor.setThreadNamePrefix("MS-Service-Executor-");

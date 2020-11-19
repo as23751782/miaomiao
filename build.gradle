@@ -23,17 +23,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    compile group: 'org.springframework.shell', name: 'spring-shell-starter', version: '2.0.1.RELEASE'
     compile 'org.slf4j:slf4j-api:1.7.30'
     compile 'commons-codec:commons-codec:1.15'
     compile 'com.alibaba:fastjson:1.2.68'
-    compile 'io.swagger:swagger-annotations:1.5.22'
-    compile 'io.swagger:swagger-models:1.5.22'
-    compile 'io.springfox:springfox-swagger2:2.9.2'
-    compile 'io.springfox:springfox-swagger-ui:2.9.2'
 
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     compileOnly 'org.projectlombok:lombok:1.18.12'
 }
+
+//run {
+//    standardInput = System.in
+//}
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"

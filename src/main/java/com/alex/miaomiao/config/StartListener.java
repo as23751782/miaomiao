@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class StartListener implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("程序启动完成...");
+        log.info(" ");
+        log.info("     ─=≡Σ((( つ•̀ω•́)つ            ");
     }
 }

@@ -1,6 +1,9 @@
 package com.alex.miaomiao.component;
 
+import com.alex.miaomiao.config.Util;
 import com.alex.miaomiao.service.SubscribeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellCommandGroup;
@@ -14,6 +17,7 @@ import java.util.Scanner;
 @ShellComponent
 @ShellCommandGroup("秒杀")
 public class SubscribeComponent {
+    private static final Logger logger = LoggerFactory.getLogger(SubscribeComponent.class);
 
     @Autowired
     private SubscribeService subscribeService;
@@ -21,19 +25,17 @@ public class SubscribeComponent {
 
     @ShellMethod("初始化，设置cookie、tk和region，必须先执行此命令")
     public void init() {
-        String cookies, tk, region;
         while (true) {
             Scanner input = new Scanner(System.in);
-            System.out.print("请输入cookie（使用Base64加密）：\n");
-            cookies = input.next();
-            System.out.print("请输入tk：\n");
-            tk = input.next();
-            System.out.print("请选择城市：\n");
-            region = input.next();
-            System.out.println(String.format("输入参数：\n\t[cookie]:%s\n\t[tk]:%s\n\t[region]:%s", cookies, tk, region));
-            System.out.println("确认参数输入正确?   [yes(y)/no(n)]");
+            System.out.print("请输入header（使用Base64加密）：\n");
+            String header = input.next();
+            System.out.print("请选择城市：(成都-5101，天津-1201)\n");
+            String region = input.next();
+            System.out.println("确认参数输入正确?   [y/n]");
             String confirm = input.next();
             if ("y".equalsIgnoreCase(confirm) || "yes".equalsIgnoreCase(confirm)) {
+                Util.setHeader(header);
+                Util.REGION = region;
                 break;
             }
         }
@@ -47,9 +49,15 @@ public class SubscribeComponent {
         System.out.println(time);
     }
 
+    @ShellMethod("查看疫苗列表")
+    public void list() {
+        subscribeService.listVacc(Util.REGION).forEach(System.out::println);
+    }
+
     @ShellMethod("开始秒杀")
     public void start() {
-        // TODO 
+        // TODO
+        subscribeService.subscribe();
     }
 
     @ShellMethodAvailability({"now", "start"})

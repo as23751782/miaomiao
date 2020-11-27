@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class SubscribeService {
@@ -41,11 +43,6 @@ public class SubscribeService {
     }
 
     public void subscribe() {
-        //需要设置的参数：region、tk、cookie
-//        Util.COOKIES = "";
-//        Util.TK = "";
-//        Util.REGION = "";
-
         // 1、拿列表，解析时间
         logger.debug("获取疫苗信息：");
         List<VaccineInfo> vaccList = listVacc(Util.REGION);
@@ -76,7 +73,54 @@ public class SubscribeService {
         long delta = serverTime - localTime;
         logger.debug("本地与秒杀服务器时间差：{}", delta);
 
+        //本地+delta=服务器时间
+        //delta小于0，服务器时间比本地慢，本地需要提前
+        AtomicBoolean success = new AtomicBoolean(false);
+        AtomicReference<String> orderId = new AtomicReference<>(null);
 
+        //
+
+
+    }
+
+    private String ms(String vaccId, AtomicBoolean success) {
+
+        success.set(true);
+        return "";
+    }
+
+    private Runnable getTask(long sleep, String vaccId, AtomicBoolean success, AtomicReference<String> orderId) {
+        return () -> {
+            try {
+                Thread.sleep(sleep);
+            } catch (InterruptedException e) {
+                logger.error("启动线程睡眠异常：{}", e.getMessage());
+                return;
+            }
+
+            long start = System.currentTimeMillis();
+            do {
+                try {
+                    orderId.set(ms(vaccId, success));
+                    logger.info("秒杀成功，订单ID：{}", orderId.get());
+                } catch (Exception e) {
+                    logger.error("秒杀失败，睡眠100ms，{}", e.getMessage());
+                }
+
+                long now = System.currentTimeMillis();
+                if (now >= (start + 1000 * 120)) {
+                    logger.info("时间到，结束秒杀");
+                    return;
+                }
+
+                try {
+                    Thread.sleep(100L);
+                } catch (InterruptedException interruptedException) {
+                    logger.error("睡眠异常：{}", interruptedException.getMessage());
+                    return;
+                }
+            } while (success.get());
+        };
     }
 
     private <T> List<T> doHttpGetList(String url, HttpEntity<Object> httpEntity, Class<T> responseType, Object... uriVariables) {
@@ -119,8 +163,4 @@ public class SubscribeService {
         return response == null ? null : JSONObject.parseObject(response);
     }
 
-
-    private UserInfo test() {
-        return doHttpGetObj("", null, UserInfo.class);
-    }
 }
